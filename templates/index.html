@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Biblioteca Virtual</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <a href="/adicionar"><button class="btn">Adicionar Livro</button></a>
+
+    {% if livros and livros|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Ano</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livro in livros %}
+            <tr>
+                <td>{{ livro.codigo }}</td>
+                <td>{{ livro.titulo }}</td>
+                <td>{{ livro.autor }}</td>
+                <td>{{ livro.ano }}</td>
+                <td>
+                    {% if livro.emprestado %}
+                        Emprestado até {{ livro.data_devolucao.strftime('%d/%m/%Y') }}
+                    {% else %}
+                        Disponível
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not livro.emprestado %}
+                        <a href="/emprestar/{{ livro.codigo }}"><button class="btn">Emprestar</button></a>
+                    {% else %}
+                        <a href="/devolver/{{ livro.codigo }}"><button class="btn">Devolver</button></a>
+                    {% endif %}
+                    <a href="/editar/{{ livro.codigo }}"><button class="btn">Editar</button></a>
+                    <a href="/excluir/{{ livro.codigo }}"><button class="btn">Excluir</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="flash" style="background: #facc15; color: #000;">
+        Nenhum livro cadastrado ainda.
+    </div>
+    {% endif %}
+{% endblock %}

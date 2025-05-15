@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Ops! Algo deu errado.</h1>
+    <div class="flash" style="background: #dc2626;">
+        {{ mensagem }}
+    </div>
+    <a href="/"><button class="btn">Voltar ao Menu Inicial</button></a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Seus Empréstimos</h1>
+
+    {% if livros and livros|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Ano</th>
+                <th>Devolver até</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livro in livros %}
+            <tr>
+                <td>{{ livro.codigo }}</td>
+                <td>{{ livro.titulo }}</td>
+                <td>{{ livro.autor }}</td>
+                <td>{{ livro.ano }}</td>
+                <td>{{ livro.data_devolucao.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    <a href="/devolver/{{ livro.codigo }}"><button class="btn">Devolver</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="flash" style="background: #facc15; color: #000;">
+        Nenhum livro foi emprestado até o momento.
+    </div>
+    {% endif %}
+
+    <a href="/"><button class="btn">Voltar para Início</button></a>
+{% endblock %}
